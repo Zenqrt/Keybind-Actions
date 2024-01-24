@@ -1,9 +1,7 @@
 #![windows_subsystem = "windows"]
-
-extern crate user32;
 extern crate winapi;
 
-use std::{process::Command, path::PathBuf};
+use std::{process::Command, path::PathBuf, os::windows::process::CommandExt};
 
 use config::get_keymaps;
 use serde_json::Value;
@@ -16,6 +14,7 @@ const APP_NAME: &str = "Keybind Actions";
 const WH_KEYBOARD_LL: i32 = 13;
 const WM_KEYDOWN: usize = 0x100;
 const WM_KEYUP: usize = 0x101;
+const CREATE_NO_WINDOW: u32 = 0x08000000;
 
 trait Action {
     fn run(&self);
@@ -30,6 +29,7 @@ impl Action for KeybindAction {
     fn run(&self) {
         Command::new("cmd")
             .args(["/C", &self.command])
+            .creation_flags(CREATE_NO_WINDOW)
             .spawn()
             .expect("failed to start");
     }
