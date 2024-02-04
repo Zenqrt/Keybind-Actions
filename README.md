@@ -18,3 +18,5 @@
 ## TODO
 * [ ] Make better keybind detection
 * [ ] Add macOS support
+* [ ] Automatically make the program a startup app
+* [ ] Export and import configurations
